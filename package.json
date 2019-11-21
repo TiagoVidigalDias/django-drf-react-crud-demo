@@ -1,15 +1,23 @@
 {
-  "name": "django-drf-react-quickstart",
+  "name": "django-drf-react-crud-demo",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A demonstration on a Django project with a DRF app and a React app, simple CRUD table implementation",
+  "main": "webpack.config.js",
   "scripts": {
     "dev": "webpack --mode development ./motivatedbuddies/frontend/src/index.js --output ./motivatedbuddies/frontend/static/frontend/main.js",
     "build": "webpack --mode production ./motivatedbuddies/frontend/src/index.js --output ./motivatedbuddies/frontend/static/frontend/main.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TiagoVidigalDias/django-drf-react-crud-demo.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TiagoVidigalDias/django-drf-react-crud-demo/issues"
+  },
+  "homepage": "https://github.com/TiagoVidigalDias/django-drf-react-crud-demo#readme",
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
