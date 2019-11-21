@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
+    HTTP_401_UNAUTHORIZED,
     HTTP_200_OK
 )
 from rest_framework.response import Response
@@ -49,7 +50,8 @@ def login(request):
     user = authenticate(username=username, password=password)
     if not user:
         return Response({'error': 'Invalid Credentials'},
-                        status=HTTP_404_NOT_FOUND)
+                        status=HTTP_401_UNAUTHORIZED)
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key},
                     status=HTTP_200_OK)
+    

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A demonstration on a Django project with a DRF app and a React app, simple CRUD table implementation",
   "main": "webpack.config.js",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "dev": "webpack --mode development ./motivatedbuddies/frontend/src/index.js --output ./motivatedbuddies/frontend/static/frontend/main.js",
     "build": "webpack --mode production ./motivatedbuddies/frontend/src/index.js --output ./motivatedbuddies/frontend/static/frontend/main.js"

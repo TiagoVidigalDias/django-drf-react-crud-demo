@@ -28,15 +28,17 @@ class Main extends Component {
 
     componentDidMount(){
         if(this.state.logged_in){
-            fetch(base_url+'addresses/', {
-                method : 'GET',
-                headers : {
-                    Authorization : `Token ${localStorage.getItem('token')}`
-                }
-            })
-            .then(res => res.json())
-            .then(resp => {
-                this.setState({ addresses : resp, loaded : true })
+            const headers = {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+            Axios.get(base_url+'addresses/', {headers: headers})
+            .then(response => {
+                this.setState({ 
+                    addresses : response.data,
+                    loaded : true, 
+                    crud_form : 'post', 
+                })
             })
             .catch(err => console.log(err));
         }
@@ -94,36 +96,47 @@ class Main extends Component {
     handleLogin = (e, data) => {
         e.preventDefault();
         console.log(data)
-        fetch(base_url+'login/', {
-            crossDomain : true,
-            withCredentials : true,
-            async : true,
-            method : 'POST',
-            headers : {
-                'Content-Type' : 'application/json',
-            },
-            body : JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(json => {
-            localStorage.setItem('token', json.token);
-            //For debugging
+        
+        let headers = {
+          'Content-Type': 'application/json',
+        }
+        
+        Axios.post(base_url+'login/', data, {headers: headers})
+        .then(response => {
+            console.log(response.data.token)
+            localStorage.setItem('token', response.data.token);
+            //For debug purposes
             //localStorage.setItem('token', 'ccbe093d0501aade681b3a92ede6120da080706c');
-            
             this.setState({
                 logged_in : true,
-                username : data.username//json.user.username
+                username : data.username,
+                //displayed_form : 'post',
+                //loaded : true,
             })
+            
+            headers['Authorization'] = `Token ${localStorage.getItem('token')}`
+            
+            Axios.get(base_url+'addresses/', {headers: headers})
+            .then(response => {
+                this.setState({ 
+                    addresses : response.data,
+                    loaded : true,
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
         })
         .catch(error => {
             console.log(error)
         })
         this.setState({
-            displayed_form : ''
+            displayed_form : '',
         })
-    }
-    
-    
+        
+          
+    }    
     
     
     addressPost = e => {
@@ -301,13 +314,16 @@ class Main extends Component {
                     ? `Hello ${this.state.username}`
                     : 'Please log in'
                 }</h3>
-                <h4>{this.state.loaded}</h4>
                 {
-                    this.state.logged_in && this.state.loaded
+                    this.state.logged_in //&& this.state.loaded
                     ? <Table data = {this.state.addresses} handleEdit = {this.handleEdit} handleDelete = {this.handleDelete}/>
                     : ''
                 }
-                {this.renderCrudForm(crud_form)}
+                {
+                    this.state.logged_in 
+                    ? this.renderCrudForm(crud_form)
+                    : ''
+                }
             </div>
         )
     }
