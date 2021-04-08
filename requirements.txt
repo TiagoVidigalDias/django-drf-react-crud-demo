@@ -2,7 +2,7 @@ amqp==2.5.2
 billiard==3.6.1.0
 celery==4.3.0
 coverage==4.5.4
-Django==2.2.7
+Django==2.2.20
 djangorestframework==3.10.3
 importlib-metadata==0.23
 kombu==4.6.6
